@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>响应式导航栏</title>
+    <style>
+        /* 重置样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* 导航栏样式 */
+        nav {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* 导航栏容器样式 */
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* LOGO样式 */
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            text-decoration: none;
+        }
+
+        /* 导航链接样式 */
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        /* 导航链接中的锚点样式 */
+        .nav-links a {
+            color: #34495e;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        /* 导航链接中的锚点下方的装饰线样式 */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #3498db;
+            transition: width 0.3s ease;
+        }
+
+        /* 鼠标悬停时导航链接中的锚点样式 */
+        .nav-links a:hover {
+            color: #3498db;
+        }
+
+        /* 鼠标悬停时导航链接中的锚点下方的装饰线样式 */
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* 当前激活的导航链接中的锚点样式 */
+        .nav-links a.active {
+            color: #3498db;
+        }
+
+        /* 汉堡按钮样式 */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+        }
+
+        /* 汉堡按钮中的横线样式 */
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: #2c3e50;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        /* 响应式设计：当屏幕宽度小于768px时，导航栏的样式 */
+        @media (max-width: 768px) {
+            /* 显示汉堡按钮 */
+            .hamburger {
+                display: block;
+            }
+
+            /* 导航链接的响应式样式 */
+            .nav-links {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                width: 100%;
+                flex-direction: column;
+                background: white;
+                text-align: center;
+                padding: 2rem 0;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                transition: 0.3s ease;
+            }
+
+            /* 当导航链接被激活时的样式 */
+            .nav-links.active {
+                left: 0;
+            }
+
+            /* 导航链接中的锚点的响应式样式 */
+            .nav-links a {
+                padding: 1rem 0;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">LOGO</a>
+            
+            <ul class="nav-links">
+                <li><a href="#" class="active">首页</a></li>
+                <li><a href="#">产品</a></li>
+                <li><a href="#">服务</a></li>
+                <li><a href="#">关于</a></li>
+                <li><a href="#">联系</a></li>
+            </ul>
+
+            <button class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        /* 切换导航栏菜单的显示状态 */
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        /* 点击外部区域关闭菜单 */
+        document.addEventListener('click', (e) => {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (!e.target.closest('.nav-container')) {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+
+        /* 滚动时改变导航栏样式 */
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(255,255,255,0.95)';
+            } else {
+                nav.style.background = '#ffffff';
+            }
+        });
+    </script>
+</body>
+</html>
